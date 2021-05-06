@@ -3,14 +3,12 @@ use meilisearch_sdk::{client::*, document::*, progress::*, indexes::*};
 use serde::{Deserialize, Serialize};
 use std::fs;
 
-// use db::Word;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Word {
     word_id: usize,
     name: String,
 }
 
-// That trait is required to make a struct usable by an index
 impl Document for Word {
     type UIDType = usize;
 
@@ -32,7 +30,6 @@ pub fn main() {
         let split_content = contents.split("\n");
         let vec = split_content.collect::<Vec<&str>>();
         for (i, word) in vec.iter().enumerate() {
-            // println!("{}, {}", i, word);
             if i % 2 != 0 && i + 1 != vec.len() {
                 let synonyms = vec[i + 1];
                 let cleaned_word = word.split('|').collect::<Vec<&str>>()[0];
@@ -55,5 +52,5 @@ pub fn main() {
                 let progress: Progress = words.set_synonyms(&synonyms).await.unwrap();
             }
         }
-    }) // println!("With text:\n{:#?}", vec);
+    }) 
 }
